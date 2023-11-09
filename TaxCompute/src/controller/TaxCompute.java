@@ -15,11 +15,6 @@ import model.Person;
  * @author PC
  */
 
-
-
-
-
-
 public class TaxCompute {
 
     Library library = new Library();
@@ -76,7 +71,7 @@ public class TaxCompute {
 
         int count = 0;
         for (BroSis broSis: broSES) {
-            if(broSis.getSalary() >= (double) 4000000){
+            if(broSis.getSalary() >= 4000000){
                 count++;
             }
         }
@@ -99,11 +94,11 @@ public class TaxCompute {
         }
         if(result < tenPercenSalary){
             result *= 0.05;
-        }else if(result >= (double) 4000000 && result <= (double)6000000){
+        }else if(result >=  4000000 && result <= 6000000){
            result *= 0.08;
-        }else if(result > (double) 6000000 && result <= (double)10000000){
+        }else if(result > 6000000 && result <= 10000000){
             result *= 0.1;
-        }else if(result > (double)10000000){
+        }else if(result > 10000000){
             result *= 0.2;
         }
         return result;
