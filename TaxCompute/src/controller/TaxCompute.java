@@ -35,7 +35,9 @@ public class TaxCompute {
         int age = library.getIntegerGreatThan0("Input age of parent: ");
         System.out.print("Male or female: ");
         boolean gender = library.maleOrFemale();
-        return new Parent(age, gender);
+        System.out.print("Have pension or not: ");
+        boolean pension = library.checkInputYN();
+        return new Parent(age, gender,pension);
     }
 
 
@@ -68,7 +70,8 @@ public class TaxCompute {
     public double khauTruDoiVoiChaMe(Parent[] parents, BroSis[] broSES){
          double result = 0;
         for (Parent parent: parents) {
-            if(parent.getAge() >= 60) result += 4400000;
+            if(parent.getAge() >= 60 && parent.isGender() && !parent.isPension()) result += 4400000;
+            else if(parent.getAge() >= 55 && !parent.isGender() && !parent.isPension()) result += 4400000;
         }
 
         int count = 0;
@@ -89,14 +92,16 @@ public class TaxCompute {
         double tenPercenSalary = salary * 0.1;
 
         result = salary - khauTruGiaCanh;
+
+
         if(result < 0){
             return -1;
         }
         if(result < tenPercenSalary){
             result *= 0.05;
-        }else if(result > (double) 4000000 && result < (double)6000000){
+        }else if(result >= (double) 4000000 && result <= (double)6000000){
            result *= 0.08;
-        }else if(result > (double) 8000000 && result < (double)10000000){
+        }else if(result > (double) 6000000 && result <= (double)10000000){
             result *= 0.1;
         }else if(result > (double)10000000){
             result *= 0.2;
@@ -151,18 +156,17 @@ public class TaxCompute {
             System.out.println("Bạn được miễn thuế");
             return;
         }
-
         String value2 = String.format("%.1f", result);
+
         System.out.println("Số thuế phải nộp là : "+value2);
     }
 
-
-
     public void run(){
         while(true){
-            display();
 
+            display();
             System.out.print("Countinue or stop: ");
+
             boolean check = library.checkInputYN();
             if(!check){
                 break;

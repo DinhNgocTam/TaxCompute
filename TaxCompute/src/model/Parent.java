@@ -4,9 +4,12 @@ public class Parent {
     private int age;
     private boolean gender;
 
-    public Parent(int age, boolean gender) {
+
+    private boolean pension;
+    public Parent(int age, boolean gender, boolean pension) {
         this.age = age;
         this.gender = gender;
+        this.pension = pension;
     }
 
     public int getAge() {
@@ -23,6 +26,16 @@ public class Parent {
 
     public void setGender(boolean gender) {
         this.gender = gender;
+    }
+
+
+    public boolean isPension() {
+
+        return pension;
+    }
+
+    public void setPension(boolean pension) {
+        this.pension = pension;
     }
 
     @Override
