@@ -42,9 +42,9 @@ public class TaxCompute {
     }
 
 
-    public int khauTruDoiVoiCon(Children[] childrens){
+    public double khauTruDoiVoiCon(Children[] childrens){
         int count = 0;
-        int result = 0;
+        double result = 0;
         for (Children children : childrens) {
             if (count <= 2) {
 
@@ -140,20 +140,23 @@ public class TaxCompute {
             broSES[j] = inputBrosis();
         }
 
+
+
         double giamThueViCon = khauTruDoiVoiCon(childrens);
         double giamThueViChaMe = khauTruDoiVoiChaMe(parents,broSES);
 
         String value1 = String.format("%.1f", giamThueViCon);
         System.out.println("Các khoản khấu trừ dành cho con cái: "+value1);
-        System.out.println("Các khoản khấu trừ dành cho cha mẹ: "+giamThueViChaMe);
+        String value2 = String.format("%.1f", giamThueViChaMe);
+        System.out.println("Các khoản khấu trừ dành cho cha mẹ: "+value2);
         double result = soThuePhaiNop(giamThueViCon, giamThueViChaMe, person.getSalary());
         if(result == -1){
             System.out.println("Bạn được miễn thuế");
             return;
         }
-        String value2 = String.format("%.1f", result);
+        String value3 = String.format("%.1f", result);
 
-        System.out.println("Số thuế phải nộp là : "+value2);
+        System.out.println("Số thuế phải nộp là : "+value3);
     }
 
     public void run(){
