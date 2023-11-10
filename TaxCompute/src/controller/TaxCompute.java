@@ -34,12 +34,14 @@ public class TaxCompute {
         return new Parent(age, gender, pension);
     }
 
+    
     public BroSis inputBrosis() {
         double salary = library.getDouble("Input salary of your brother or sister: ");
         return new BroSis(salary);
     }
 
     public double khauTruDoiVoiCon(Children[] childrens) {
+        
         int count = 0;
         double result = 0;
         for (Children children : childrens) {
@@ -70,6 +72,7 @@ public class TaxCompute {
         }
 
         int count = 0;
+        
         for (BroSis broSis : broSES) {
             if (broSis.getSalary() >= 4000000) {
                 count++;
@@ -100,8 +103,8 @@ public class TaxCompute {
         }
         return result;
     }
-    
-    public double tienDu(double salary, double tienThue){
+
+    public double tienDu(double salary, double tienThue) {
         double tenPercentSalary = salary * 0.1;
         return tenPercentSalary - tienThue;
     }
@@ -156,9 +159,12 @@ public class TaxCompute {
         String value3 = String.format("%.1f", taxPayable);
 
         System.out.println("Số thuế phải nộp là : " + value3);
-        
-        String value4 = String.format("%.1f", tienDu(person.getSalary(), taxPayable));
-        System.out.println("Tiền được trả lại: " + value4);
+
+        double surplusTax = tienDu(person.getSalary(), taxPayable);
+        if (surplusTax >= 0) {
+            String value4 = String.format("%.1f", surplusTax);
+            System.out.println("Tiền được trả lại: " + value4);
+        }
     }
 
     public void run() {
@@ -173,6 +179,6 @@ public class TaxCompute {
             }
         }
         System.out.println("Program stop");
-
     }
+    
 }
