@@ -110,7 +110,7 @@ public class TaxCompute {
         int numChildren = library.getIntegerGreatThan0("Input number of children: ");
         int numParent = library.getIntegerGreatThan0("Input number of Parent: ");
         int numBrosis = library.getIntegerGreatThan0("Input number of Brosis: ");
-        double salary = library.getDouble("Input salary: ");
+        double salary = library.getDouble("Input salary of you: ");
         return new Person(name,numChildren, numParent, numBrosis, salary);
     }
 
