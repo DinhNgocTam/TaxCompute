@@ -14,7 +14,6 @@ import model.Person;
  *
  * @author PC
  */
-
 public class TaxCompute {
 
     Library library = new Library();
@@ -25,24 +24,22 @@ public class TaxCompute {
         boolean school = library.checkInputYN();
         return new Children(age, school);
     }
-    
-    public Parent inputParent(){
+
+    public Parent inputParent() {
         int age = library.getIntegerGreatThan0("Input age of parent: ");
         System.out.print("Male or female: ");
         boolean gender = library.maleOrFemale();
         System.out.print("Have pension or not: ");
         boolean pension = library.checkInputYN();
-        return new Parent(age, gender,pension);
+        return new Parent(age, gender, pension);
     }
 
-
-    public BroSis inputBrosis(){
+    public BroSis inputBrosis() {
         double salary = library.getDouble("Input salary of your brother or sister: ");
         return new BroSis(salary);
     }
 
-
-    public double khauTruDoiVoiCon(Children[] childrens){
+    public double khauTruDoiVoiCon(Children[] childrens) {
         int count = 0;
         double result = 0;
         for (Children children : childrens) {
@@ -62,16 +59,19 @@ public class TaxCompute {
         return result;
     }
 
-    public double khauTruDoiVoiChaMe(Parent[] parents, BroSis[] broSES){
-         double result = 0;
-        for (Parent parent: parents) {
-            if(parent.getAge() >= 60 && parent.isGender() && !parent.isPension()) result += 4400000;
-            else if(parent.getAge() >= 55 && !parent.isGender() && !parent.isPension()) result += 4400000;
+    public double khauTruDoiVoiChaMe(Parent[] parents, BroSis[] broSES) {
+        double result = 0;
+        for (Parent parent : parents) {
+            if (parent.getAge() >= 60 && parent.isGender() && !parent.isPension()) {
+                result += 4400000;
+            } else if (parent.getAge() >= 55 && !parent.isGender() && !parent.isPension()) {
+                result += 4400000;
+            }
         }
 
         int count = 0;
-        for (BroSis broSis: broSES) {
-            if(broSis.getSalary() >= 4000000){
+        for (BroSis broSis : broSES) {
+            if (broSis.getSalary() >= 4000000) {
                 count++;
             }
         }
@@ -79,42 +79,44 @@ public class TaxCompute {
         return result;
     }
 
-
-    public double soThuePhaiNop(double khauTruVoiCon, double khauTruVoiChaMe, double salary){
+    public double soThuePhaiNop(double khauTruVoiCon, double khauTruVoiChaMe, double salary) {
         double result = 0;
 
         double khauTruGiaCanh = khauTruVoiCon + khauTruVoiChaMe + 11000000;
-        double tenPercenSalary = salary * 0.1;
 
         result = salary - khauTruGiaCanh;
 
-
-        if(result < 0){
+        if (result < 0) {
             return -1;
         }
-        if(result < tenPercenSalary){
+        if (result < 4000000) {
             result *= 0.05;
-        }else if(result >=  4000000 && result <= 6000000){
-           result *= 0.08;
-        }else if(result > 6000000 && result <= 10000000){
+        } else if (result >= 4000000 && result <= 6000000) {
+            result *= 0.08;
+        } else if (result > 6000000 && result <= 10000000) {
             result *= 0.1;
-        }else if(result > 10000000){
+        } else if (result > 10000000) {
             result *= 0.2;
         }
         return result;
     }
+    
+    public double tienDu(double salary, double tienThue){
+        double tenPercentSalary = salary * 0.1;
+        return tenPercentSalary - tienThue;
+    }
 
-    public Person inputPerson(){
+    public Person inputPerson() {
 
         String name = library.getValue("Input name: ");
         int numChildren = library.getIntegerGreatThan0("Input number of children: ");
         int numParent = library.getIntegerGreatThan0("Input number of Parent: ");
         int numBrosis = library.getIntegerGreatThan0("Input number of Brosis: ");
         double salary = library.getDouble("Input salary of you: ");
-        return new Person(name,numChildren, numParent, numBrosis, salary);
+        return new Person(name, numChildren, numParent, numBrosis, salary);
     }
 
-    public void display(){
+    public void display() {
         Person person = inputPerson();
         int numberChildren = person.getNumberChildren();
         Children[] childrens = new Children[numberChildren];
@@ -131,7 +133,6 @@ public class TaxCompute {
             parents[j] = inputParent();
         }
 
-
         int numberBrosis = person.getNumberBrosis();
         BroSis[] broSES = new BroSis[numberBrosis];
 
@@ -140,39 +141,38 @@ public class TaxCompute {
             broSES[j] = inputBrosis();
         }
 
-
-
         double giamThueViCon = khauTruDoiVoiCon(childrens);
-        double giamThueViChaMe = khauTruDoiVoiChaMe(parents,broSES);
+        double giamThueViChaMe = khauTruDoiVoiChaMe(parents, broSES);
 
         String value1 = String.format("%.1f", giamThueViCon);
-        System.out.println("Các khoản khấu trừ dành cho con cái: "+value1);
+        System.out.println("Các khoản khấu trừ dành cho con cái: " + value1);
         String value2 = String.format("%.1f", giamThueViChaMe);
-        System.out.println("Các khoản khấu trừ dành cho cha mẹ: "+value2);
-        double result = soThuePhaiNop(giamThueViCon, giamThueViChaMe, person.getSalary());
-        if(result == -1){
+        System.out.println("Các khoản khấu trừ dành cho cha mẹ: " + value2);
+        double taxPayable = soThuePhaiNop(giamThueViCon, giamThueViChaMe, person.getSalary());
+        if (taxPayable == -1) {
             System.out.println("Bạn được miễn thuế");
             return;
         }
-        String value3 = String.format("%.1f", result);
+        String value3 = String.format("%.1f", taxPayable);
 
-        System.out.println("Số thuế phải nộp là : "+value3);
+        System.out.println("Số thuế phải nộp là : " + value3);
+        
+        String value4 = String.format("%.1f", tienDu(person.getSalary(), taxPayable));
+        System.out.println("Tiền được trả lại: " + value4);
     }
 
-    public void run(){
-        while(true){
+    public void run() {
+        while (true) {
 
             display();
             System.out.print("Countinue or stop: ");
 
             boolean check = library.checkInputYN();
-            if(!check){
+            if (!check) {
                 break;
             }
         }
         System.out.println("Program stop");
 
-
     }
 }
-
